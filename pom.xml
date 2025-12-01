@@ -7,17 +7,14 @@
     <groupId>edu_ngd_pdd</groupId>
     <artifactId>CommunityPddPlatform</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>CommunityPddPlatform</name>
     <description>CommunityPddPlatform</description>
 
     <!--    子模块声明-->
     <modules>
         <module>leader-service</module>
-        <module>group-order-service</module>
         <module>group-product-service</module>
-        <module>group-service</module>
-        <module>after-sales-service</module>
-        <module>common</module>
     </modules>
 
     <!-- ========== Spring Boot 父项继承 ========== -->
