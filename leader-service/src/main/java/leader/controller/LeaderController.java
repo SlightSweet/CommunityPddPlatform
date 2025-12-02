@@ -26,4 +26,9 @@ public class LeaderController {
     public Leader findLeaderById(Integer id) {
         return leaderService.findLeaderById(id);
     }
+
+    @RequestMapping("/insertLeader")
+    public int insertLeader(Leader leader) {
+        return leaderService.insertLeader(leader);
+    }
 }
