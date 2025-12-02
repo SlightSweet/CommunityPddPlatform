@@ -1,6 +1,6 @@
-package service;
+package leader.service;
 
-import pojo.Leader;
+import leader.pojo.Leader;
 
 import java.util.List;
 

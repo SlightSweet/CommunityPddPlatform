@@ -1,8 +1,8 @@
-package service.impl;
+package leader.service.impl;
 
-import service.LeaderService;
-import pojo.Leader;
-import mapper.LeaderMapper;
+import leader.service.LeaderService;
+import leader.pojo.Leader;
+import leader.mapper.LeaderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
