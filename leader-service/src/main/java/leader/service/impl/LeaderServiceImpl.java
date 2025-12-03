@@ -1,17 +1,20 @@
 package leader.service.impl;
 
-import leader.service.LeaderService;
-import leader.pojo.Leader;
 import leader.mapper.LeaderMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import leader.pojo.Leader;
+import leader.service.LeaderService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class LeaderServiceImpl implements LeaderService {
 
-    @Autowired
-    private LeaderMapper leaderMapper;
+    private final LeaderMapper leaderMapper;
+
+    public LeaderServiceImpl(LeaderMapper leaderMapper) {
+        this.leaderMapper = leaderMapper;
+    }
 
     @Override
     public List<Leader> findAllLeaders() {
@@ -28,4 +31,9 @@ public class LeaderServiceImpl implements LeaderService {
         return leaderMapper.insertLeader(leader);
     }
 
+    @Override
+    public Leader authenticate(String username, String password) {
+        // 简单示例：明文验证。生产请用哈希（BCrypt）并且不要直接比对明文
+        return leaderMapper.findByUsernameAndPassword(username, password);
+    }
 }

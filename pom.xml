@@ -15,6 +15,9 @@
     <modules>
         <module>leader-service</module>
         <module>group-product-service</module>
+        <module>member-service</module>
+        <module>portal</module>
+        <module>portal</module>
     </modules>
 
     <!-- ========== Spring Boot 父项继承 ========== -->

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社区团购平台</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        h1 {
+            font-size: 32px;
+            color: #333;
+        }
+        .button-container {
+            margin-top: 50px;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+            margin: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .button-register {
+            background-color: #2196F3;
+        }
+        .button-register:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>欢迎来到社区团购平台</h1>
+    <p>请选择登录方式或注册新账户：</p>
+
+    <div class="button-container">
+        <!-- 登录团长入口 -->
+        <button class="button" onclick="window.location.href='/leader/login'">团长登录</button>
+
+        <!-- 登录团员入口 -->
+        <button class="button" onclick="window.location.href='/member/login'">团员登录</button>
+    </div>
+
+    <div class="button-container">
+        <!-- 注册入口 -->
+        <button class="button button-register" onclick="window.location.href='/register'">注册新账户</button>
+    </div>
+</div>
+</body>
+</html>

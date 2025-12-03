@@ -1,4 +1,4 @@
-package leader.pojo;
+package portal.pojo;
 
 import lombok.Data;
 

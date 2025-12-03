@@ -8,4 +8,5 @@ public interface LeaderService {
     List<Leader> findAllLeaders();
     Leader findLeaderById(Integer id);
     int insertLeader(Leader leader);
+    Leader authenticate(String username, String password);
 }
