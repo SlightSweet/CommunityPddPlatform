@@ -32,7 +32,7 @@ public class LeaderController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam("username") String username,
+    public ResponseEntity<?> login(@RequestParam("name") String username,
                                    @RequestParam("password") String password) {
         Leader leader = leaderService.authenticate(username, password);
         if (leader == null) {

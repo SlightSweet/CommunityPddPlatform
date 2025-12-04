@@ -32,8 +32,15 @@
         const password = document.getElementById('password').value;
 
         try {
-            const response = await fetch(`/leader/login?name=${encodeURIComponent(name)}&password=${encodeURIComponent(password)}`, {
-                method: 'GET'
+            const response = await fetch(`/leader/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    name: encodeURIComponent(name),
+                    password: encodeURIComponent(password)
+                })
             });
             if (response.ok) {
                 const data = await response.json();
