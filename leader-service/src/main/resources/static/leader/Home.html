@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>团长主页</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .welcome {
+            font-size: 18px;
+            margin: 0;
+        }
+        .logout-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            flex: 1;
+            background-color: #e9f7ef;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .nav-button {
+            flex: 1;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+        .nav-button:hover {
+            background-color: #0b7dda;
+        }
+        .recent-orders {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="welcome" id="welcomeMessage">欢迎，团长！</div>
+    <button class="logout-btn" onclick="logout()">退出登录</button>
+</div>
+
+<div class="container">
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-number" id="totalOrders">0</div>
+            <div class="stat-label">总订单数</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="totalMembers">0</div>
+            <div class="stat-label">团员数量</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="totalProducts">0</div>
+            <div class="stat-label">商品数量</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="totalRevenue">¥0</div>
+            <div class="stat-label">总收益</div>
+        </div>
+    </div>
+
+    <div class="nav-menu">
+        <button class="nav-button" onclick="location.href='#products'">商品管理</button>
+        <button class="nav-button" onclick="location.href='#orders'">订单管理</button>
+        <button class="nav-button" onclick="location.href='#members'">团员管理</button>
+        <button class="nav-button" onclick="location.href='#reports'">数据报表</button>
+    </div>
+
+    <div class="card recent-orders">
+        <h2>最近订单</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>订单号</th>
+                <th>商品</th>
+                <th>数量</th>
+                <th>金额</th>
+                <th>状态</th>
+                <th>下单时间</th>
+            </tr>
+            </thead>
+            <tbody id="ordersTable">
+            <tr>
+                <td colspan="6" style="text-align: center;">暂无订单数据</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // 页面加载时显示用户信息
+    window.onload = function() {
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        if (currentUser && currentUser.name) {
+            document.getElementById('welcomeMessage').textContent = `欢迎，${currentUser.name} 团长！`;
+        }
+
+        // 模拟加载统计数据
+        loadStats();
+    };
+
+    // 模拟加载统计数据
+    function loadStats() {
+        // 这些数据应该从后端API获取
+        document.getElementById('totalOrders').textContent = '128';
+        document.getElementById('totalMembers').textContent = '356';
+        document.getElementById('totalProducts').textContent = '24';
+        document.getElementById('totalRevenue').textContent = '¥25,680';
+    }
+
+    // 退出登录
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = 'http://localhost:1010/portal.html';
+    }
+</script>
+</body>
+</html>
