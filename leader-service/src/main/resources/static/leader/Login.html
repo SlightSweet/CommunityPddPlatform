@@ -44,8 +44,12 @@
             });
             if (response.ok) {
                 const data = await response.json();
+                sessionStorage.setItem('currentUser', JSON.stringify(data));
                 document.getElementById('result').style.color = 'green';
                 document.getElementById('result').textContent = `登录成功！欢迎 ${data.name}`;
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 2000);
             } else if(response.status === 404){
                 document.getElementById('result').textContent = '接口未找到，请检查路径';
             } else {
