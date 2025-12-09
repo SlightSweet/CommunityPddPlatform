@@ -7,7 +7,7 @@ import portal.pojo.Leader;
 
 import java.util.List;
 
-@FeignClient(name = "leader-service", url = "${leader.service.url:http://localhost:8080}")
+@FeignClient(name = "leader-service", url = "${leader.service.url:http://localhost:8081}")
 public interface LeaderServiceClient {
 
     @PostMapping("/leader/login")
@@ -21,4 +21,8 @@ public interface LeaderServiceClient {
 
     @PostMapping("/leader/insertLeader")
     int insertLeader(@RequestBody Leader leader);
+
+    @PostMapping("/leader/register")
+    int registerLeader(@RequestBody Leader leader);
+
 }
