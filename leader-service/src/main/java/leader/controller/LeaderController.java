@@ -26,15 +26,17 @@ public class LeaderController {
         return leaderService.findLeaderById(id);
     }
 
-    @RequestMapping("/insertLeader")
-    public int insertLeader(Leader leader) {
+    @PostMapping("/insertLeader")
+    public int insertLeader(@RequestBody Leader leader) {
         return leaderService.insertLeader(leader);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam("name") String username,
+    public ResponseEntity<?> login(@RequestParam(value = "username", required = false) String username,
+                                   @RequestParam(value = "name", required = false) String name,
                                    @RequestParam("password") String password) {
-        Leader leader = leaderService.authenticate(username, password);
+        String userToCheck = username != null ? username : name;
+        Leader leader = leaderService.authenticate(userToCheck, password);
         if (leader == null) {
             return ResponseEntity.status(401).body("用户名或密码错误");
         }

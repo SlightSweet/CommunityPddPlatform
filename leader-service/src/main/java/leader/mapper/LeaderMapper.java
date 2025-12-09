@@ -21,6 +21,6 @@ public interface LeaderMapper {
     @Select("SELECT * FROM leader_info WHERE name = #{username} AND password = #{password}")
     Leader findByUsernameAndPassword(String username, String password);
 
-    @Select("SELECT * FROM leader WHERE name = #{username}")
+    @Select("SELECT * FROM leader_info WHERE name = #{username}")
     Leader findByUsername(String username);
 }
