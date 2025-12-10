@@ -14,9 +14,10 @@
     <!--    子模块声明-->
     <modules>
         <module>leader-service</module>
-        <module>group-product-service</module>
         <module>member-service</module>
         <module>portal</module>
+        <module>group-service</module>
+        <module>group-product-service</module>
     </modules>
 
     <!-- ========== Spring Boot 父项继承 ========== -->

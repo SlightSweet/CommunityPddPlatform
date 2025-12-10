@@ -125,7 +125,7 @@
         </div>
         <div class="stat-item">
             <div class="stat-number" id="totalMembers">0</div>
-            <div class="stat-label">团员数量</div>
+            <div class="stat-label">拼团数量</div>
         </div>
         <div class="stat-item">
             <div class="stat-number" id="totalProducts">0</div>
@@ -138,7 +138,7 @@
     </div>
 
     <div class="nav-menu">
-        <button class="nav-button" onclick="location.href='#products'">商品管理</button>
+        <button class="nav-button" onclick="location.href='Group.html'">拼团服务</button>
         <button class="nav-button" onclick="location.href='#orders'">订单管理</button>
         <button class="nav-button" onclick="location.href='#members'">团员管理</button>
         <button class="nav-button" onclick="location.href='#reports'">数据报表</button>
@@ -181,7 +181,7 @@
     // 模拟加载统计数据
     function loadStats() {
         // 这些数据应该从后端API获取
-        document.getElementById('totalOrders').textContent = '128';
+        document.getElementById('totalGroups').textContent = '128';
         document.getElementById('totalMembers').textContent = '356';
         document.getElementById('totalProducts').textContent = '24';
         document.getElementById('totalRevenue').textContent = '¥25,680';
