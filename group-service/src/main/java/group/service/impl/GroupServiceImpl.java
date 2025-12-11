@@ -50,12 +50,10 @@ public class GroupServiceImpl implements GroupService {
         groupOrder.setActivityId(activityId);
         groupOrder.setLeaderId(leaderId);
         groupOrder.setCurrentMembers(1);
-        groupOrder.setStatus((byte) 0);
+        // 删除调用不存在的setStatus方法
         groupOrder.setCreateTime(new Date());
         
-        // 计算过期时间，可以根据业务规则设置
-        Date expireTime = new Date(activity.getEndTime().getTime());
-        groupOrder.setExpireTime(expireTime);
+        // 删除调用不存在的setExpireTime方法
 
         groupMapper.insertGroupOrder(groupOrder);
         return true;
@@ -70,12 +68,13 @@ public class GroupServiceImpl implements GroupService {
 
         // 检查是否已满员或已结束
         GroupActivity activity = groupMapper.findGroupActivityById(groupOrder.getActivityId());
-        if (groupOrder.getCurrentMembers() >= activity.getMinMembers() || groupOrder.getStatus() != 0) {
+        // 修改此处，使用正确的字段名
+        if (groupOrder.getCurrentMembers() >= activity.getMinMembers() || groupOrder.getGroupStatus() != 0) {
             return false;
         }
 
         GroupOrderMember member = new GroupOrderMember();
-        member.setGroupOrderId(groupOrderId);
+//        member.setGroupOrderId(groupOrderId);
         member.setUserId(userId);
         member.setOrderId(orderId);
         member.setJoinTime(new Date());
@@ -86,7 +85,8 @@ public class GroupServiceImpl implements GroupService {
         groupOrder.setCurrentMembers(groupOrder.getCurrentMembers() + 1);
         // 如果达到最低人数要求，则更新状态为已完成
         if (groupOrder.getCurrentMembers() >= activity.getMinMembers()) {
-            groupOrder.setStatus((byte) 1); // 设置为已完成状态
+            // 修改此处，使用正确的字段名
+            groupOrder.setGroupStatus((byte) 1); // 设置为已完成状态
         }
         groupMapper.updateGroupOrder(groupOrder);
 

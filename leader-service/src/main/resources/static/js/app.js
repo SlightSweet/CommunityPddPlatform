@@ -6,7 +6,7 @@ function loadLeaders() {
             list.innerHTML = '';
             data.forEach(leader => {
                 const li = document.createElement('li');
-                li.textContent = `${leader.id} - ${leader.name} - ${leader.phone} - ${leader.community}`;
+                li.textContent = `${leader.id} - ${leader.name}`;
                 list.appendChild(li);
             });
         })
