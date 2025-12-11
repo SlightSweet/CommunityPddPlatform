@@ -19,20 +19,20 @@
     </select>
 
     <insert id="insertGroupOrder" parameterType="group.pojo.GroupOrder" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO group_order(activity_id, leader_id, current_members, status, create_time, expire_time)
-        VALUES(#{activityId}, #{leaderId}, #{currentMembers}, #{status}, #{createTime}, #{expireTime})
+        INSERT INTO group_order(activity_id, leader_id, product_id, group_status, current_members, create_time)
+        VALUES(#{activityId}, #{leaderId}, #{productId}, #{groupStatus}, #{currentMembers}, #{createTime})
     </insert>
 
     <update id="updateGroupOrder" parameterType="group.pojo.GroupOrder">
-        UPDATE group_order SET current_members = #{currentMembers}, status = #{status} WHERE id = #{id}
+        UPDATE group_order SET current_members = #{currentMembers}, group_status = #{groupStatus} WHERE id = #{id}
     </update>
 
     <select id="findGroupOrderMembersByGroupOrderId" resultType="group.pojo.GroupOrderMember" parameterType="long">
-        SELECT * FROM group_order_member WHERE group_order_id = #{groupOrderId}
+        SELECT * FROM group_order_member WHERE order_id = #{orderId}
     </select>
 
     <insert id="insertGroupOrderMember" parameterType="group.pojo.GroupOrderMember" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO group_order_member(group_order_id, user_id, order_id, join_time)
-        VALUES(#{groupOrderId}, #{userId}, #{orderId}, #{joinTime})
+        INSERT INTO group_order_member(order_id, user_id, join_time)
+        VALUES(#{orderId}, #{userId}, #{joinTime})
     </insert>
 </mapper>

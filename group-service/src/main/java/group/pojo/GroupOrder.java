@@ -6,10 +6,10 @@ public class GroupOrder {
     private Long id;
     private Long activityId;
     private Long leaderId;
+    private Long productId;
+    private Byte groupStatus;
     private Integer currentMembers;
-    private Byte status;
     private Date createTime;
-    private Date expireTime;
 
     // Getters and Setters
     public Long getId() {
@@ -36,6 +36,22 @@ public class GroupOrder {
         this.leaderId = leaderId;
     }
 
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Byte getGroupStatus() {
+        return groupStatus;
+    }
+
+    public void setGroupStatus(Byte groupStatus) {
+        this.groupStatus = groupStatus;
+    }
+
     public Integer getCurrentMembers() {
         return currentMembers;
     }
@@ -44,27 +60,11 @@ public class GroupOrder {
         this.currentMembers = currentMembers;
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Date getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Date expireTime) {
-        this.expireTime = expireTime;
     }
 }

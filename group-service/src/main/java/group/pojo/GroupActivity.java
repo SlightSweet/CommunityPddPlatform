@@ -5,12 +5,14 @@ import java.util.Date;
 
 public class GroupActivity {
     private Long id;
+    private Long leaderId;
     private Long productId;
     private BigDecimal groupPrice;
     private Integer minMembers;
     private Date startTime;
     private Date endTime;
     private Byte status;
+    private Date createTime;
 
     // Getters and Setters
     public Long getId() {
@@ -19,6 +21,14 @@ public class GroupActivity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getLeaderId() {
+        return leaderId;
+    }
+
+    public void setLeaderId(Long leaderId) {
+        this.leaderId = leaderId;
     }
 
     public Long getProductId() {
@@ -67,5 +77,13 @@ public class GroupActivity {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .welcome {
+            font-size: 18px;
+            margin: 0;
+        }
+        .logout-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            color: #333;
+            margin-top: 0;
+            display: inline-block;
+        }
+        .add-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            float: right;
+            margin-top: 10px;
+        }
+        .add-btn:hover {
+            background-color: #45a049;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .nav-button {
+            flex: 1;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+        .nav-button:hover {
+            background-color: #0b7dda;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .edit-btn, .delete-btn, .status-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .edit-btn {
+            background-color: #FFC107;
+            color: black;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .status-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 5px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .form-actions {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .save-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .cancel-btn {
+            background-color: #ccc;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .clear::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="welcome" id="welcomeMessage">欢迎，团长！</div>
+    <button class="logout-btn" onclick="logout()">退出登录</button>
+</div>
+
+<div class="container">
+    <div class="nav-menu">
+        <button class="nav-button" onclick="location.href='Home.html'">主页</button>
+        <button class="nav-button" onclick="location.href='Group.html'">拼团服务</button>
+<!--        <button class="nav-button" onclick="location.href='Product.html'">商品管理</button>-->
+        <!-- <button class="nav-button" onclick="location.href='#members'">团员管理</button>
+        <button class="nav-button" onclick="location.href='#reports'">数据报表</button> -->
+    </div>
+
+    <div class="card">
+        <h2>商品列表</h2>
+        <button class="add-btn" onclick="openAddModal()">新增商品</button>
+        <div class="clear"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>商品名称</th>
+                    <th>描述</th>
+                    <th>价格</th>
+                    <th>库存</th>
+                    <th>预售库存</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="productTable">
+                <tr>
+                    <td colspan="8" style="text-align: center;">暂无商品数据</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 添加/编辑商品模态框 -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle">新增商品</h2>
+        <form id="productForm">
+            <input type="hidden" id="productId">
+            <div class="form-group">
+                <label for="productName">商品名称:</label>
+                <input type="text" id="productName" required>
+            </div>
+            <div class="form-group">
+                <label for="productDescription">商品描述:</label>
+                <textarea id="productDescription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="productPrice">价格:</label>
+                <input type="number" id="productPrice" step="0.01" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="productStock">库存:</label>
+                <input type="number" id="productStock" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="productPreSaleStock">预售库存:</label>
+                <input type="number" id="productPreSaleStock" min="0" value="0">
+            </div>
+            <div class="form-group">
+                <label for="productStatus">状态:</label>
+                <select id="productStatus">
+                    <option value="0">下架</option>
+                    <option value="1">上架</option>
+                    <option value="2">预售</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" onclick="closeModal()">取消</button>
+                <button type="submit" class="save-btn">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // 页面加载时显示用户信息
+    window.onload = function() {
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        if (currentUser && currentUser.name) {
+            document.getElementById('welcomeMessage').textContent = `欢迎，${currentUser.name} 团长！`;
+        }
+
+        // 加载商品数据
+        loadProducts();
+    };
+
+    // 模拟加载商品数据
+    function loadProducts() {
+        // 这里应该从后端API获取商品数据
+        // 暂时使用模拟数据
+        const products = [
+            {
+                id: 1,
+                name: "新鲜苹果",
+                description: "红富士苹果，新鲜采摘",
+                price: 5.99,
+                stock: 100,
+                preSaleStock: 20,
+                status: 1
+            },
+            {
+                id: 2,
+                name: "有机蔬菜礼盒",
+                description: "多种有机蔬菜组合",
+                price: 29.99,
+                stock: 50,
+                preSaleStock: 10,
+                status: 2
+            }
+        ];
+
+        renderProducts(products);
+    }
+
+    // 渲染商品表格
+    function renderProducts(products) {
+        const tbody = document.getElementById('productTable');
+
+        if (!products || products.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">暂无商品数据</td></tr>';
+            return;
+        }
+
+        let html = '';
+        products.forEach(product => {
+            html += `
+                <tr>
+                    <td>${product.id}</td>
+                    <td>${product.name}</td>
+                    <td>${product.description}</td>
+                    <td>¥${product.price}</td>
+                    <td>${product.stock}</td>
+                    <td>${product.preSaleStock}</td>
+                    <td>${getStatusText(product.status)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit-btn" onclick="openEditModal(${product.id})">编辑</button>
+                            <button class="status-btn" onclick="toggleStatus(${product.id}, ${product.status})">${getStatusToggleText(product.status)}</button>
+                            <button class="delete-btn" onclick="deleteProduct(${product.id})">删除</button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = html;
+    }
+
+    // 获取状态文本
+    function getStatusText(status) {
+        switch(status) {
+            case 0: return '下架';
+            case 1: return '上架';
+            case 2: return '预售';
+            default: return '未知';
+        }
+    }
+
+    // 获取状态切换按钮文本
+    function getStatusToggleText(status) {
+        switch(status) {
+            case 0: return '上架';
+            case 1: return '下架';
+            case 2: return '上架';
+            default: return '操作';
+        }
+    }
+
+    // 打开添加商品模态框
+    function openAddModal() {
+        document.getElementById('modalTitle').textContent = '新增商品';
+        document.getElementById('productForm').reset();
+        document.getElementById('productId').value = '';
+        document.getElementById('productModal').style.display = 'block';
+    }
+
+    // 打开编辑商品模态框
+    function openEditModal(productId) {
+        document.getElementById('modalTitle').textContent = '编辑商品';
+        // 这里应该从后端获取商品详情并填充表单
+        // 暂时使用模拟数据
+        document.getElementById('productId').value = productId;
+        document.getElementById('productName').value = '示例商品';
+        document.getElementById('productDescription').value = '这是一个示例商品';
+        document.getElementById('productPrice').value = 9.99;
+        document.getElementById('productStock').value = 100;
+        document.getElementById('productPreSaleStock').value = 20;
+        document.getElementById('productStatus').value = 1;
+
+        document.getElementById('productModal').style.display = 'block';
+    }
+
+    // 关闭模态框
+    function closeModal() {
+        document.getElementById('productModal').style.display = 'none';
+    }
+
+    // 切换商品状态
+    function toggleStatus(productId, currentStatus) {
+        // 这里应该调用后端API来更新商品状态
+        alert(`切换商品 ${productId} 状态，当前状态: ${getStatusText(currentStatus)}`);
+    }
+
+    // 删除商品
+    function deleteProduct(productId) {
+        if (confirm(`确定要删除商品 ID ${productId} 吗？`)) {
+            // 这里应该调用后端API来删除商品
+            alert(`商品 ${productId} 已删除`);
+            // 重新加载商品列表
+            loadProducts();
+        }
+    }
+
+    // 表单提交处理
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // 获取表单数据
+        const productData = {
+            id: document.getElementById('productId').value,
+            name: document.getElementById('productName').value,
+            description: document.getElementById('productDescription').value,
+            price: parseFloat(document.getElementById('productPrice').value),
+            stock: parseInt(document.getElementById('productStock').value),
+            preSaleStock: parseInt(document.getElementById('productPreSaleStock').value),
+            status: parseInt(document.getElementById('productStatus').value)
+        };
+
+        // 这里应该调用后端API保存商品数据
+        console.log('保存商品:', productData);
+        alert(productData.id ? '商品更新成功' : '商品添加成功');
+
+        // 关闭模态框并重新加载数据
+        closeModal();
+        loadProducts();
+    });
+
+    // 点击模态框外部关闭
+    window.onclick = function(event) {
+        const modal = document.getElementById('productModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    // 退出登录
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = 'http://localhost:1010/portal.html';
+    }
+</script>
+</body>
+</html>

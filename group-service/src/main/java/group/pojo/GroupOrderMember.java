@@ -4,9 +4,8 @@ import java.util.Date;
 
 public class GroupOrderMember {
     private Long id;
-    private Long groupOrderId;
-    private Long userId;
     private Long orderId;
+    private Long userId;
     private Date joinTime;
 
     // Getters and Setters
@@ -18,12 +17,12 @@ public class GroupOrderMember {
         this.id = id;
     }
 
-    public Long getGroupOrderId() {
-        return groupOrderId;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setGroupOrderId(Long groupOrderId) {
-        this.groupOrderId = groupOrderId;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public Long getUserId() {
@@ -32,14 +31,6 @@ public class GroupOrderMember {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
     }
 
     public Date getJoinTime() {
