@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product.mapper.ProductMapper">
+
+    <resultMap id="ProductResultMap" type="product.pojo.Product">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="pre_sale_stock" property="preSaleStock"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- 查询所有商品 -->
+    <select id="getAllProducts" resultMap="ProductResultMap">
+        SELECT * FROM product ORDER BY id DESC
+    </select>
+
+    <!-- 根据ID查询商品 -->
+    <select id="getProductById" parameterType="long" resultMap="ProductResultMap">
+        SELECT * FROM product WHERE id = #{id}
+    </select>
+
+    <!-- 插入商品 -->
+    <insert id="insertProduct" parameterType="product.pojo.Product" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product (name, description, price, stock, pre_sale_stock, create_time, update_time, status)
+        VALUES (#{name}, #{description}, #{price}, #{stock}, #{preSaleStock}, #{createTime}, #{updateTime}, #{status})
+    </insert>
+
+    <!-- 更新商品 -->
+    <update id="updateProduct" parameterType="product.pojo.Product">
+        UPDATE product
+        SET name = #{name},
+            description = #{description},
+            price = #{price},
+            stock = #{stock},
+            pre_sale_stock = #{preSaleStock},
+            update_time = #{updateTime},
+            status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除商品 -->
+    <delete id="deleteProduct" parameterType="long">
+        DELETE FROM product WHERE id = #{id}
+    </delete>
+
+</mapper>

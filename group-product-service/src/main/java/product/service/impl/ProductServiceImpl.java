@@ -3,76 +3,46 @@ package product.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import product.mapper.ProductMapper;
 import product.pojo.Product;
 import product.service.ProductService;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    // 模拟数据库存储
-    private List<Product> products = new ArrayList<>();
+    @Autowired
+    private ProductMapper productMapper;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @PostConstruct
-    public void init() {
-        // 初始化一些示例数据
-        Product product1 = new Product();
-        product1.setId(1L);
-        product1.setName("iPhone 12");
-        product1.setPrice(new java.math.BigDecimal("5999.00"));
-        product1.setStock(100);
-        product1.setStatus((byte) 1);
-
-        Product product2 = new Product();
-        product2.setId(2L);
-        product2.setName("小米电视");
-        product2.setPrice(new java.math.BigDecimal("2999.00"));
-        product2.setStock(50);
-        product2.setStatus((byte) 1);
-
-        products.add(product1);
-        products.add(product2);
-    }
-
     @Override
     public List<Product> getAllProducts() {
-        return products;
+        return productMapper.getAllProducts();
     }
 
     @Override
     public Product getProductById(Long id) {
-        return products.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return productMapper.getProductById(id);
     }
 
     @Override
     public boolean launchProduct(Product product) {
-        // 设置商品状态为上架
-        product.setStatus((byte) 1);
-        product.setCreateTime(new java.util.Date());
-        product.setUpdateTime(new java.util.Date());
-
+        Date now = new Date();
+        product.setUpdateTime(now);
+        
         if (product.getId() == null) {
-            // 新商品分配ID
-            long maxId = products.stream()
-                    .mapToLong(Product::getId)
-                    .max()
-                    .orElse(0L);
-            product.setId(maxId + 1);
-            products.add(product);
+            // 新商品
+            product.setCreateTime(now);
+            product.setStatus((byte) 1); // 默认上架
+            productMapper.insertProduct(product);
         } else {
             // 更新已有商品
-            products.removeIf(p -> p.getId().equals(product.getId()));
-            products.add(product);
+            productMapper.updateProduct(product);
         }
         return true;
     }
@@ -83,7 +53,8 @@ public class ProductServiceImpl implements ProductService {
         if (product != null) {
             product.setPreSaleStock(stock);
             product.setStatus((byte) 2); // 设置为预售状态
-            product.setUpdateTime(new java.util.Date());
+            product.setUpdateTime(new Date());
+            productMapper.updateProduct(product);
             return true;
         }
         return false;
@@ -104,11 +75,9 @@ public class ProductServiceImpl implements ProductService {
         // 使用Redis的原子操作减少库存
         Long stock = redisTemplate.opsForValue().decrement(stockKey);
         if (stock != null && stock >= 0) {
-            // 秒杀成功，记录用户信息
             redisTemplate.opsForValue().set(userKey, 1, 30, TimeUnit.MINUTES);
             return "秒杀成功";
         } else {
-            // 恢复库存（因为decrement已经执行了）
             if (stock != null && stock < 0) {
                 redisTemplate.opsForValue().increment(stockKey);
             }
