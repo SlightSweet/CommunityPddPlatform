@@ -36,4 +36,19 @@ public class LeaderServiceImpl implements LeaderService {
         // 简单示例：明文验证。生产请用哈希（BCrypt）并且不要直接比对明文
         return leaderMapper.findByUsernameAndPassword(username, password);
     }
+    
+    @Override
+    public int countOrdersByLeaderId(Long leaderId) {
+        return leaderMapper.countOrdersByLeaderId(leaderId);
+    }
+    
+    @Override
+    public int countGroupsByLeaderId(Long leaderId) {
+        return leaderMapper.countGroupsByLeaderId(leaderId);
+    }
+    
+    @Override
+    public int countAllProducts() {
+        return leaderMapper.countAllProducts();
+    }
 }

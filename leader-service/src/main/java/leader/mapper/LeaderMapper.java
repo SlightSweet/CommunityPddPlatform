@@ -23,4 +23,14 @@ public interface LeaderMapper {
 
     @Select("SELECT * FROM leader_info WHERE name = #{username}")
     Leader findByUsername(String username);
+    
+    // 添加统计信息查询方法
+    @Select("SELECT COUNT(*) FROM group_order WHERE leader_id = #{leaderId}")
+    int countOrdersByLeaderId(Long leaderId);
+    
+    @Select("SELECT COUNT(*) FROM group_activity WHERE leader_id = #{leaderId}")
+    int countGroupsByLeaderId(Long leaderId);
+    
+    @Select("SELECT COUNT(*) FROM product")
+    int countAllProducts();
 }

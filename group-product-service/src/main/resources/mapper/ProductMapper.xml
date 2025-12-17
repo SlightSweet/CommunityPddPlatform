@@ -10,7 +10,6 @@
         <result column="stock" property="stock"/>
         <result column="pre_sale_stock" property="preSaleStock"/>
         <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
         <result column="status" property="status"/>
     </resultMap>
 
@@ -26,8 +25,8 @@
 
     <!-- 插入商品 -->
     <insert id="insertProduct" parameterType="product.pojo.Product" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO product (name, description, price, stock, pre_sale_stock, create_time, update_time, status)
-        VALUES (#{name}, #{description}, #{price}, #{stock}, #{preSaleStock}, #{createTime}, #{updateTime}, #{status})
+        INSERT INTO product (name, description, price, stock, pre_sale_stock, create_time, status)
+        VALUES (#{name}, #{description}, #{price}, #{stock}, #{preSaleStock}, #{createTime}, #{status})
     </insert>
 
     <!-- 更新商品 -->
@@ -38,7 +37,6 @@
             price = #{price},
             stock = #{stock},
             pre_sale_stock = #{preSaleStock},
-            update_time = #{updateTime},
             status = #{status}
         WHERE id = #{id}
     </update>

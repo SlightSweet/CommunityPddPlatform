@@ -18,6 +18,16 @@ public class GroupController {
         this.groupService = groupService;
     }
 
+    @PostMapping("/activity/create")
+    public ResponseEntity<?> createGroupActivity(@RequestBody GroupActivity groupActivity) {
+        try {
+            GroupActivity createdActivity = groupService.createGroupActivity(groupActivity);
+            return ResponseEntity.ok(createdActivity);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("创建团购活动失败: " + e.getMessage());
+        }
+    }
+
     @RequestMapping("/activities")
     public List<GroupActivity> findAllGroupActivities() {
         return groupService.findAllGroupActivities();
@@ -35,11 +45,15 @@ public class GroupController {
 
     @PostMapping("/order/create")
     public ResponseEntity<String> createGroupOrder(@RequestParam Long activityId, @RequestParam Long leaderId) {
-        boolean result = groupService.createGroupOrder(activityId, leaderId);
-        if (result) {
-            return ResponseEntity.ok("团购订单创建成功");
-        } else {
-            return ResponseEntity.badRequest().body("团购订单创建失败");
+        try {
+            boolean result = groupService.createGroupOrder(activityId, leaderId);
+            if (result) {
+                return ResponseEntity.ok("团购订单创建成功");
+            } else {
+                return ResponseEntity.badRequest().body("团购订单创建失败");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("团购订单创建失败: " + e.getMessage());
         }
     }
 

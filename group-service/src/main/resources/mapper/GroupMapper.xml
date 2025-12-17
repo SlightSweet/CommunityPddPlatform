@@ -6,6 +6,12 @@
         SELECT * FROM group_activity
     </select>
 
+    <!-- 添加新的插入语句 -->
+    <insert id="insertGroupActivity" parameterType="group.pojo.GroupActivity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO group_activity(leader_id, product_id, group_price, min_members, start_time, end_time, status, create_time)
+        VALUES(#{leaderId}, #{productId}, #{groupPrice}, #{minMembers}, #{startTime}, #{endTime}, #{status}, #{createTime})
+    </insert>
+
     <select id="findGroupActivityById" resultType="group.pojo.GroupActivity" parameterType="long">
         SELECT * FROM group_activity WHERE id = #{id}
     </select>

@@ -12,6 +12,9 @@ public interface GroupService {
     List<GroupActivity> findAllGroupActivities();
     GroupActivity findGroupActivityById(Long id);
 
+    // 添加新方法
+    GroupActivity createGroupActivity(GroupActivity groupActivity);
+
     List<GroupOrder> findGroupOrdersByActivityId(Long activityId);
     GroupOrder findGroupOrderById(Long id);
     boolean createGroupOrder(Long activityId, Long leaderId);

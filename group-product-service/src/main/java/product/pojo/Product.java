@@ -11,7 +11,6 @@ public class Product {
     private Integer stock;
     private Integer preSaleStock; // 预售库存
     private Date createTime;
-    private Date updateTime;
     private Byte status; // 0:下架, 1:上架, 2:预售
 
     // Getters and Setters
@@ -69,14 +68,6 @@ public class Product {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 
     public Byte getStatus() {

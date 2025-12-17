@@ -31,20 +31,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean launchProduct(Product product) {
-        Date now = new Date();
-        product.setUpdateTime(now);
-        
-        if (product.getId() == null) {
-            // 新商品
-            product.setCreateTime(now);
-            product.setStatus((byte) 1); // 默认上架
-            productMapper.insertProduct(product);
-        } else {
-            // 更新已有商品
-            productMapper.updateProduct(product);
+    public boolean launchProduct(Product product) throws Exception {
+        try {
+            if (product.getId() == null) {
+                // 新商品
+                product.setCreateTime(new Date());
+                product.setStatus((byte) 1); // 默认上架
+                productMapper.insertProduct(product);
+            } else {
+                // 更新已有商品
+                productMapper.updateProduct(product);
+            }
+            return true;
+        } catch (Exception e) {
+            throw new Exception("商品添加/更新失败: " + e.getMessage());
         }
-        return true;
     }
 
     @Override
@@ -53,7 +54,6 @@ public class ProductServiceImpl implements ProductService {
         if (product != null) {
             product.setPreSaleStock(stock);
             product.setStatus((byte) 2); // 设置为预售状态
-            product.setUpdateTime(new Date());
             productMapper.updateProduct(product);
             return true;
         }

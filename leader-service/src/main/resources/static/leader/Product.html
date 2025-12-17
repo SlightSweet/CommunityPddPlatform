@@ -207,7 +207,7 @@
         <button class="nav-button" onclick="location.href='Group.html'">拼团服务</button>
 <!--        <button class="nav-button" onclick="location.href='Product.html'">商品管理</button>-->
         <!-- <button class="nav-button" onclick="location.href='#members'">团员管理</button>
-        <button class="nav-button" onclick="location.href='#reports'">数据报表</button> -->
+        <button class="nav-button" onclick="location.href='#reports">数据报表</button> -->
     </div>
 
     <div class="card">
@@ -274,7 +274,7 @@
             </div>
             <div class="form-actions">
                 <button type="button" class="cancel-btn" onclick="closeModal()">取消</button>
-                <button type="submit" class="save-btn">保存</button>
+                <button type="button" class="save-btn" onclick="submitProduct()">保存</button>
             </div>
         </form>
     </div>
@@ -288,6 +288,15 @@
         }
 
         loadProducts();
+
+        // 防止回车或其他原因触发表单的默认提交，确保使用 JS 的 fetch 提交
+        const productForm = document.getElementById('productForm');
+        if (productForm) {
+            productForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('productForm submit prevented');
+            });
+        }
     };
 
     function loadProducts() {
@@ -422,11 +431,11 @@
         })
         .then(response => response.json())
         .then(result => {
-            if (result) {
+            if (result.success) {
                 alert('商品状态更新成功');
                 loadProducts();
             } else {
-                alert('商品状态更新失败');
+                alert('商品状态更新失败: ' + result.message);
             }
         })
         .catch(err => {
@@ -435,7 +444,6 @@
         });
     }
 
-    TODO:后端似乎没有提供删除商品接口
     // 删除商品
     function deleteProduct(productId) {
         if (!confirm('确定删除吗？')) return;
@@ -448,9 +456,8 @@
         });
     }
 
-    // 表单提交处理
-    document.getElementById('productForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    function submitProduct() {
+        console.log('提交触发了'); // 添加调试日志
 
         const id = document.getElementById('productId').value;
 
@@ -472,21 +479,45 @@
             },
             body: JSON.stringify(productData)
         })
-        .then(response => response.json())
+        .then(response => {
+            // 先检查响应状态
+            if (response.ok) {
+                return response.text().then(text => {
+                    // 如果响应体有内容且是JSON格式，则解析为JSON，否则返回普通对象
+                    if (text) {
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            return { success: true, message: '操作成功' };
+                        }
+                    } else {
+                        return { success: true, message: id ? '商品更新成功' : '商品添加成功' };
+                    }
+                });
+            } else {
+                return response.text().then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        return { success: false, message: '操作失败: ' + text };
+                    }
+                });
+            }
+        })
         .then(result => {
-            if (result) {
+            if (result.success) {
                 alert(id ? '商品更新成功' : '商品添加成功');
                 closeModal();
                 loadProducts();
             } else {
-                alert('操作失败');
+                alert('操作失败: ' + result.message);
             }
         })
         .catch(err => {
             console.error(err);
-            alert('操作失败');
+            alert('网络错误或服务器无响应');
         });
-    });
+    }
 
     // 点击模态框外部关闭
     window.onclick = function(event) {
@@ -500,6 +531,51 @@
     function logout() {
         sessionStorage.clear();
         window.location.href = 'http://localhost:1010/portal.html';
+    }
+
+    // 发起拼团
+    function createGroup() {
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        const groupData = {
+            productId: document.getElementById('productId').value,
+            groupPrice: document.getElementById('productPrice').value,
+            minMembers: document.getElementById('minMembers').value,
+            endTime: document.getElementById('endTime').value
+        };
+
+        fetch('http://localhost:8082/group/activity/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                productId: groupData.productId,
+                groupPrice: groupData.groupPrice,
+                minMembers: groupData.minMembers,
+                endTime: groupData.endTime,
+                leaderId: currentUser.id
+            })
+        })
+        .then(async response => {
+            const text = await response.text();
+            if (!response.ok) {
+                console.error('后端返回错误:', response.status, text);
+                alert('拼团发起失败: ' + text);
+                return;
+            }
+            // 解析可能为 JSON 或文本
+            try {
+                const data = JSON.parse(text);
+                console.log('发起拼团成功，返回：', data);
+            } catch (e) {
+                console.log('发起拼团成功，返回文本：', text);
+            }
+            alert('拼团发起成功！');
+            closeCreateModal();
+            loadGroupData();
+        })
+        .catch(error => {
+            console.error('发起拼团失败:', error);
+            alert('拼团发起失败！');
+        });
     }
 </script>
 </body>

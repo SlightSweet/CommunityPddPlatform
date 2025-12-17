@@ -174,17 +174,69 @@
             document.getElementById('welcomeMessage').textContent = `欢迎，${currentUser.name} 团长！`;
         }
 
-        // 模拟加载统计数据
+        // 加载统计数据
         loadStats();
+        // 加载最近订单
+        loadRecentOrders();
     };
 
-    // 模拟加载统计数据
+    // 加载统计数据
     function loadStats() {
-        // 这些数据应该从后端API获取
-        document.getElementById('totalGroups').textContent = '128';
-        document.getElementById('totalMembers').textContent = '356';
-        document.getElementById('totalProducts').textContent = '24';
-        document.getElementById('totalRevenue').textContent = '¥25,680';
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        if (!currentUser || !currentUser.id) {
+            console.error('无法获取用户信息');
+            return;
+        }
+
+        fetch(`http://localhost:8081/leader/statistics/${currentUser.id}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('totalOrders').textContent = data.totalOrders || 0;
+                document.getElementById('totalMembers').textContent = data.totalGroups || 0;
+                document.getElementById('totalProducts').textContent = data.totalProducts || 0;
+                document.getElementById('totalRevenue').textContent = data.totalRevenue || '¥0';
+            })
+            .catch(error => {
+                console.error('加载统计数据失败:', error);
+            });
+    }
+
+    // 加载最近订单
+    function loadRecentOrders() {
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        if (!currentUser || !currentUser.id) {
+            console.error('无法获取用户信息');
+            return;
+        }
+
+        fetch(`http://localhost:8081/leader/recent-orders/${currentUser.id}`)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('ordersTable');
+                tbody.innerHTML = ''; // 清空原有内容
+
+                if (data && data.length > 0) {
+                    data.forEach(order => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${order.orderId}</td>
+                            <td>${order.productName}</td>
+                            <td>${order.quantity}</td>
+                            <td>${order.amount}</td>
+                            <td>${order.status}</td>
+                            <td>${order.orderTime}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="6" style="text-align: center;">暂无订单数据</td>';
+                    tbody.appendChild(row);
+                }
+            })
+            .catch(error => {
+                console.error('加载订单数据失败:', error);
+            });
     }
 
     // 退出登录
