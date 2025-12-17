@@ -9,9 +9,4 @@ public interface LeaderService {
     Leader findLeaderById(Integer id);
     int insertLeader(Leader leader);
     Leader authenticate(String username, String password);
-    
-    // 添加统计信息服务接口
-    int countOrdersByLeaderId(Long leaderId);
-    int countGroupsByLeaderId(Long leaderId);
-    int countAllProducts();
 }

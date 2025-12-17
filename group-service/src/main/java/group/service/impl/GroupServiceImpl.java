@@ -29,41 +29,6 @@ public class GroupServiceImpl implements GroupService {
         return groupMapper.findGroupActivityById(id);
     }
 
-    // 添加新方法实现
-    @Override
-    public GroupActivity createGroupActivity(GroupActivity groupActivity) {
-        // 简单参数校验，避免向数据库插入不完整数据导致异常
-        if (groupActivity == null) {
-            throw new RuntimeException("groupActivity 为空");
-        }
-        if (groupActivity.getLeaderId() == null) {
-            throw new RuntimeException("leaderId 不能为空");
-        }
-        if (groupActivity.getProductId() == null) {
-            throw new RuntimeException("productId 不能为空");
-        }
-        if (groupActivity.getGroupPrice() == null) {
-            throw new RuntimeException("groupPrice 不能为空");
-        }
-        if (groupActivity.getMinMembers() == null) {
-            throw new RuntimeException("minMembers 不能为空");
-        }
-
-        // 如果没有指定开始时间，则使用当前时间作为开始时间
-        if (groupActivity.getStartTime() == null) {
-            groupActivity.setStartTime(new Date());
-        }
-
-        groupActivity.setCreateTime(new Date());
-        groupActivity.setStatus((byte) 1); // 默认启用状态
-        try {
-            groupMapper.insertGroupActivity(groupActivity);
-            return groupActivity;
-        } catch (Exception e) {
-            throw new RuntimeException("插入group_activity失败: " + e.getMessage(), e);
-        }
-    }
-
     @Override
     public List<GroupOrder> findGroupOrdersByActivityId(Long activityId) {
         return groupMapper.findGroupOrdersByActivityId(activityId);
@@ -78,7 +43,7 @@ public class GroupServiceImpl implements GroupService {
     public boolean createGroupOrder(Long activityId, Long leaderId) {
         GroupActivity activity = groupMapper.findGroupActivityById(activityId);
         if (activity == null) {
-            throw new RuntimeException("找不到ID为 " + activityId + " 的团购活动");
+            return false;
         }
 
         GroupOrder groupOrder = new GroupOrder();
@@ -90,12 +55,8 @@ public class GroupServiceImpl implements GroupService {
         
         // 删除调用不存在的setExpireTime方法
 
-        try {
-            groupMapper.insertGroupOrder(groupOrder);
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException("创建团购订单失败: " + e.getMessage(), e);
-        }
+        groupMapper.insertGroupOrder(groupOrder);
+        return true;
     }
 
     @Override

@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import product.pojo.Product;
 import product.service.ProductService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/product")
@@ -25,21 +23,8 @@ public class ProductController {
         return productService.getProductById(id);
     }
     @PostMapping("/launch")
-    public Map<String, Object> launchProduct(@RequestBody Product product) {
-        Map<String, Object> res = new HashMap<>();
-        try {
-            boolean ok = productService.launchProduct(product);
-            res.put("success", ok);
-            if (ok) {
-                res.put("message", "商品保存成功");
-            } else {
-                res.put("message", "商品保存失败");
-            }
-        } catch (Exception e) {
-            res.put("success", false);
-            res.put("message", "商品保存异常: " + e.getMessage());
-        }
-        return res;
+    public boolean launchProduct(@RequestBody Product product) {
+        return productService.launchProduct(product);
     }
     @PostMapping("/setPreSaleStock")
     public boolean setPreSaleStock(@RequestParam Long productId, @RequestParam Integer stock) {

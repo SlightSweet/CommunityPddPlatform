@@ -14,9 +14,6 @@ public interface GroupMapper {
     List<GroupActivity> findAllGroupActivities();
     GroupActivity findGroupActivityById(Long id);
 
-    // 添加新方法
-    void insertGroupActivity(GroupActivity groupActivity);
-
     List<GroupOrder> findGroupOrdersByActivityId(Long activityId);
     GroupOrder findGroupOrderById(Long id);
     void insertGroupOrder(GroupOrder groupOrder);
