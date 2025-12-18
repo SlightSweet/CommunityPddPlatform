@@ -4,165 +4,314 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>团长主页</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #4CAF50;
+            --info-color: #2196F3;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
         }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         .header {
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
             padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+
         .welcome {
-            font-size: 18px;
-            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
         }
+
         .logout-btn {
-            background-color: #f44336;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 20px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
         }
+
         .logout-btn:hover {
-            background-color: #d32f2f;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
+
         .container {
             max-width: 1200px;
             margin: 20px auto;
-            padding: 0 20px;
+            padding: 0 15px;
         }
+
         .card {
-            background-color: white;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: none;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card h2 {
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            background: transparent;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 20px 25px;
+            font-weight: 600;
             color: #333;
-            margin-top: 0;
         }
-        .stats {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
+
         .stat-item {
-            flex: 1;
-            background-color: #e9f7ef;
-            padding: 15px;
-            border-radius: 5px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 12px;
+            padding: 25px 20px;
             text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
         }
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
         }
-        .stat-label {
-            color: #666;
-            margin-top: 5px;
-        }
-        .nav-menu {
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
         }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
         .nav-button {
-            flex: 1;
-            background-color: #2196F3;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 5px;
+            padding: 20px 15px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
+            font-weight: 500;
             text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
         }
+
         .nav-button:hover {
-            background-color: #0b7dda;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
         }
-        .recent-orders {
-            margin-top: 20px;
+
+        .nav-button i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
+
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
         }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+
         th {
-            background-color: #f2f2f2;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+            padding: 15px;
+            text-align: left;
         }
-        tr:hover {
-            background-color: #f5f5f5;
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9ff;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-processing {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-menu {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-<div class="header">
-    <div class="welcome" id="welcomeMessage">欢迎，团长！</div>
-    <button class="logout-btn" onclick="logout()">退出登录</button>
+<div class="header d-flex justify-content-between align-items-center">
+    <div class="welcome" id="welcomeMessage">
+        <i class="fas fa-user-circle me-2"></i>欢迎，团长！
+    </div>
+    <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt me-1"></i>退出登录
+    </button>
 </div>
 
 <div class="container">
-    <div class="stats">
-        <div class="stat-item">
-            <div class="stat-number" id="totalOrders">0</div>
-            <div class="stat-label">总订单数</div>
+    <div class="row stats g-4 mb-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-item">
+                <div class="stat-icon bg-primary text-white">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="stat-number" id="totalOrders">0</div>
+                <div class="stat-label">总订单数</div>
+            </div>
         </div>
-        <div class="stat-item">
-            <div class="stat-number" id="totalMembers">0</div>
-            <div class="stat-label">拼团数量</div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-item">
+                <div class="stat-icon bg-info text-white">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number" id="totalMembers">0</div>
+                <div class="stat-label">拼团数量</div>
+            </div>
         </div>
-        <div class="stat-item">
-            <div class="stat-number" id="totalProducts">0</div>
-            <div class="stat-label">商品数量</div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-item">
+                <div class="stat-icon bg-success text-white">
+                    <i class="fas fa-box"></i>
+                </div>
+                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-label">商品数量</div>
+            </div>
         </div>
-        <div class="stat-item">
-            <div class="stat-number" id="totalRevenue">¥0</div>
-            <div class="stat-label">总收益</div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-item">
+                <div class="stat-icon bg-warning text-white">
+                    <i class="fas fa-yen-sign"></i>
+                </div>
+                <div class="stat-number" id="totalRevenue">¥0</div>
+                <div class="stat-label">总收益</div>
+            </div>
         </div>
     </div>
 
     <div class="nav-menu">
-        <button class="nav-button" onclick="location.href='Group.html'">拼团服务</button>
-        <button class="nav-button" onclick="location.href='Product.html'">商品管理</button>
-        <button class="nav-button" onclick="location.href='#members'">团员管理</button>
-        <button class="nav-button" onclick="location.href='#reports'">数据报表</button>
+        <button class="nav-button" onclick="navigateTo('Group.html')">
+            <i class="fas fa-object-group"></i>
+            拼团服务
+        </button>
+        <button class="nav-button" onclick="navigateTo('Product.html')">
+            <i class="fas fa-box-open"></i>
+            商品管理
+        </button>
+        <button class="nav-button" onclick="navigateTo('Member.html')">
+            <i class="fas fa-user-friends"></i>
+            团员管理
+        </button>
+        <button class="nav-button" onclick="navigateTo('Report.html')">
+            <i class="fas fa-chart-bar"></i>
+            数据报表
+        </button>
     </div>
 
-    <div class="card recent-orders">
-        <h2>最近订单</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>订单号</th>
-                <th>商品</th>
-                <th>数量</th>
-                <th>金额</th>
-                <th>状态</th>
-                <th>下单时间</th>
-            </tr>
-            </thead>
-            <tbody id="ordersTable">
-            <tr>
-                <td colspan="6" style="text-align: center;">暂无订单数据</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-history me-2"></i>最近订单</span>
+            <button class="btn btn-sm btn-outline-primary" onclick="refreshOrders()">
+                <i class="fas fa-sync-alt me-1"></i>刷新
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>订单号</th>
+                        <th>商品</th>
+                        <th>数量</th>
+                        <th>金额</th>
+                        <th>状态</th>
+                        <th>下单时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="ordersTable">
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">
+                            <i class="fas fa-spinner fa-spin me-2"></i>正在加载数据...
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -171,26 +320,121 @@
     window.onload = function() {
         const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
         if (currentUser && currentUser.name) {
-            document.getElementById('welcomeMessage').textContent = `欢迎，${currentUser.name} 团长！`;
+            document.getElementById('welcomeMessage').innerHTML =
+                `<i class="fas fa-user-circle me-2"></i>欢迎，${currentUser.name} 团长！`;
+        } else {
+            // 如果没有登录信息，跳转到登录页
+            window.location.href = 'Login.html';
         }
 
-        // 模拟加载统计数据
+        // 加载统计数据和订单数据
         loadStats();
+        loadRecentOrders();
     };
 
-    // 模拟加载统计数据
+    // 加载统计数据
     function loadStats() {
-        // 这些数据应该从后端API获取
-        document.getElementById('totalGroups').textContent = '128';
-        document.getElementById('totalMembers').textContent = '356';
-        document.getElementById('totalProducts').textContent = '24';
-        document.getElementById('totalRevenue').textContent = '¥25,680';
+        // 模拟从后端获取数据
+        setTimeout(() => {
+            document.getElementById('totalOrders').textContent = '12';
+            document.getElementById('totalMembers').textContent = '6';
+            document.getElementById('totalProducts').textContent = '2';
+            document.getElementById('totalRevenue').textContent = '¥250';
+        }, 800);
+    }
+
+    // 加载最近订单
+    function loadRecentOrders() {
+        // 模拟从后端获取订单数据
+        setTimeout(() => {
+            const ordersData = [
+                { id: 'ORD001', product: '新鲜苹果', quantity: 5, amount: '¥125.00', status: 'completed', date: '2023-12-01 14:30' },
+                { id: 'ORD002', product: '优质大米', quantity: 2, amount: '¥89.50', status: 'processing', date: '2023-12-01 16:45' },
+                { id: 'ORD003', product: '有机蔬菜', quantity: 3, amount: '¥68.00', status: 'completed', date: '2023-12-02 09:15' },
+                { id: 'ORD004', product: '精品茶叶', quantity: 1, amount: '¥158.00', status: 'cancelled', date: '2023-12-02 11:20' }
+            ];
+
+            renderOrders(ordersData);
+        }, 1000);
+    }
+
+    // 渲染订单表格
+    function renderOrders(orders) {
+        const tableBody = document.getElementById('ordersTable');
+        if (!orders || orders.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        <i class="fas fa-inbox me-2"></i>暂无订单数据
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        let rows = '';
+        orders.forEach(order => {
+            const statusClass = getStatusClass(order.status);
+            const statusText = getStatusText(order.status);
+            rows += `
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.product}</td>
+                    <td>${order.quantity}</td>
+                    <td>${order.amount}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>${order.date}</td>
+                </tr>
+            `;
+        });
+
+        tableBody.innerHTML = rows;
+    }
+
+    // 获取状态样式类
+    function getStatusClass(status) {
+        switch(status) {
+            case 'processing': return 'status-processing';
+            case 'completed': return 'status-completed';
+            case 'cancelled': return 'status-cancelled';
+            default: return 'status-processing';
+        }
+    }
+
+    // 获取状态文本
+    function getStatusText(status) {
+        switch(status) {
+            case 'processing': return '处理中';
+            case 'completed': return '已完成';
+            case 'cancelled': return '已取消';
+            default: return '未知';
+        }
+    }
+
+    // 刷新订单数据
+    function refreshOrders() {
+        const tableBody = document.getElementById('ordersTable');
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    <i class="fas fa-spinner fa-spin me-2"></i>正在加载数据...
+                </td>
+            </tr>
+        `;
+        loadRecentOrders();
+    }
+
+    // 导航到指定页面
+    function navigateTo(page) {
+        window.location.href = page;
     }
 
     // 退出登录
     function logout() {
-        sessionStorage.clear();
-        window.location.href = 'http://localhost:1010/portal.html';
+        if (confirm('确定要退出登录吗？')) {
+            sessionStorage.clear();
+            window.location.href = '../portal.html';
+        }
     }
 </script>
 </body>
