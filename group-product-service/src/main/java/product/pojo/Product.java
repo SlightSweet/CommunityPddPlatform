@@ -3,15 +3,29 @@ package product.pojo;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
     private Long id;
+    
+    @JsonProperty("name")
     private String name;
+    
+    @JsonProperty("description")
     private String description;
+    
+    @JsonProperty("price")
     private BigDecimal price;
+    
+    @JsonProperty("stock")
     private Integer stock;
+    
+    @JsonProperty("preSaleStock")
     private Integer preSaleStock; // 预售库存
-    private Date createTime;
-    private Date updateTime;
+    
+    @JsonProperty("status")
     private Byte status; // 0:下架, 1:上架, 2:预售
 
     // Getters and Setters
@@ -61,22 +75,6 @@ public class Product {
 
     public void setPreSaleStock(Integer preSaleStock) {
         this.preSaleStock = preSaleStock;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 
     public Byte getStatus() {

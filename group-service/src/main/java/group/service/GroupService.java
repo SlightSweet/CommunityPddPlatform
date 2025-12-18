@@ -11,6 +11,7 @@ import java.util.List;
 public interface GroupService {
     List<GroupActivity> findAllGroupActivities();
     GroupActivity findGroupActivityById(Long id);
+    boolean createGroupActivity(GroupActivity groupActivity);
 
     List<GroupOrder> findGroupOrdersByActivityId(Long activityId);
     GroupOrder findGroupOrderById(Long id);

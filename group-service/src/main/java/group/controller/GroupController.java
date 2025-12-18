@@ -28,6 +28,16 @@ public class GroupController {
         return groupService.findGroupActivityById(id);
     }
 
+    @PostMapping("/activity/create")
+    public ResponseEntity<String> createGroupActivity(@RequestBody GroupActivity groupActivity) {
+        boolean result = groupService.createGroupActivity(groupActivity);
+        if (result) {
+            return ResponseEntity.ok("拼团活动创建成功");
+        } else {
+            return ResponseEntity.badRequest().body("拼团活动创建失败");
+        }
+    }
+
     @GetMapping("/{activityId}/orders")
     public List<GroupOrder> findGroupOrdersByActivityId(@PathVariable Long activityId) {
         return groupService.findGroupOrdersByActivityId(activityId);
@@ -35,11 +45,16 @@ public class GroupController {
 
     @PostMapping("/order/create")
     public ResponseEntity<String> createGroupOrder(@RequestParam Long activityId, @RequestParam Long leaderId) {
+        // 添加参数验证
+        if (activityId == null || leaderId == null) {
+            return ResponseEntity.badRequest().body("activityId 和 leaderId 参数不能为空");
+        }
+        
         boolean result = groupService.createGroupOrder(activityId, leaderId);
         if (result) {
             return ResponseEntity.ok("团购订单创建成功");
         } else {
-            return ResponseEntity.badRequest().body("团购订单创建失败");
+            return ResponseEntity.badRequest().body("团购订单创建失败，可能是因为指定的活动ID(" + activityId + ")不存在");
         }
     }
 

@@ -30,6 +30,23 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public boolean createGroupActivity(GroupActivity groupActivity) {
+        try {
+            Date now = new Date();
+            groupActivity.setCreateTime(now);
+            groupActivity.setStartTime(now);
+            if (groupActivity.getStatus() == null) {
+                groupActivity.setStatus((byte) 1); // 默认启用状态
+            }
+            groupMapper.insertGroupActivity(groupActivity);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public List<GroupOrder> findGroupOrdersByActivityId(Long activityId) {
         return groupMapper.findGroupOrdersByActivityId(activityId);
     }
@@ -49,12 +66,11 @@ public class GroupServiceImpl implements GroupService {
         GroupOrder groupOrder = new GroupOrder();
         groupOrder.setActivityId(activityId);
         groupOrder.setLeaderId(leaderId);
+        groupOrder.setProductId(activity.getProductId()); // 从活动获取商品ID
         groupOrder.setCurrentMembers(1);
-        // 删除调用不存在的setStatus方法
+        groupOrder.setGroupStatus((byte) 0); // 添加状态设置
         groupOrder.setCreateTime(new Date());
         
-        // 删除调用不存在的setExpireTime方法
-
         groupMapper.insertGroupOrder(groupOrder);
         return true;
     }

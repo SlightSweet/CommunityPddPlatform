@@ -10,9 +10,12 @@ import product.service.ProductService;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    
+    private static final Logger logger = Logger.getLogger(ProductServiceImpl.class.getName());
 
     @Autowired
     private ProductMapper productMapper;
@@ -27,24 +30,34 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
+        logger.info("Getting product by id: " + id);
         return productMapper.getProductById(id);
     }
 
     @Override
     public boolean launchProduct(Product product) {
-        Date now = new Date();
-        product.setUpdateTime(now);
-        
-        if (product.getId() == null) {
-            // 新商品
-            product.setCreateTime(now);
-            product.setStatus((byte) 1); // 默认上架
-            productMapper.insertProduct(product);
-        } else {
-            // 更新已有商品
-            productMapper.updateProduct(product);
+        try {
+            logger.info("Launching product: " + product.getName());
+            
+            if (product.getId() == null) {
+                // 新商品
+                product.setStatus((byte) 1); // 默认上架
+                logger.info("Inserting new product: " + product.getName());
+                productMapper.insertProduct(product);
+                logger.info("New product inserted with ID: " + product.getId());
+            } else {
+                // 更新已有商品
+                logger.info("Updating existing product with ID: " + product.getId());
+                productMapper.updateProduct(product);
+                logger.info("Product updated with ID: " + product.getId());
+            }
+            logger.info("Product launch successful");
+            return true;
+        } catch (Exception e) {
+            logger.severe("Error in launchProduct: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
-        return true;
     }
 
     @Override
@@ -53,7 +66,6 @@ public class ProductServiceImpl implements ProductService {
         if (product != null) {
             product.setPreSaleStock(stock);
             product.setStatus((byte) 2); // 设置为预售状态
-            product.setUpdateTime(new Date());
             productMapper.updateProduct(product);
             return true;
         }

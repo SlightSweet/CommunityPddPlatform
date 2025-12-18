@@ -18,6 +18,11 @@
         SELECT * FROM group_order WHERE id = #{id}
     </select>
 
+    <insert id="insertGroupActivity" parameterType="group.pojo.GroupActivity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO group_activity(leader_id, product_id, group_price, min_members, start_time, end_time, status, create_time)
+        VALUES(#{leaderId}, #{productId}, #{groupPrice}, #{minMembers}, #{startTime}, #{endTime}, #{status}, #{createTime})
+    </insert>
+
     <insert id="insertGroupOrder" parameterType="group.pojo.GroupOrder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO group_order(activity_id, leader_id, product_id, group_status, current_members, create_time)
         VALUES(#{activityId}, #{leaderId}, #{productId}, #{groupStatus}, #{currentMembers}, #{createTime})

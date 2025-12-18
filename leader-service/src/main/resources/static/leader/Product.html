@@ -472,19 +472,24 @@
             },
             body: JSON.stringify(productData)
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
         .then(result => {
             if (result) {
                 alert(id ? '商品更新成功' : '商品添加成功');
                 closeModal();
                 loadProducts();
             } else {
-                alert('操作失败');
+                alert('操作失败，服务器返回false');
             }
         })
         .catch(err => {
             console.error(err);
-            alert('操作失败');
+            alert('操作失败: ' + err.message);
         });
     });
 

@@ -13,6 +13,7 @@ import java.util.List;
 public interface GroupMapper {
     List<GroupActivity> findAllGroupActivities();
     GroupActivity findGroupActivityById(Long id);
+    void insertGroupActivity(GroupActivity groupActivity);
 
     List<GroupOrder> findGroupOrdersByActivityId(Long activityId);
     GroupOrder findGroupOrderById(Long id);

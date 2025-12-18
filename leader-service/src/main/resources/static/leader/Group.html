@@ -389,20 +389,24 @@
         }
 
         // 创建拼团活动
-        fetch('http://localhost:8082/group/activity/create', {
+        fetch('http://localhost:8082/group/order/create', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify({
-                productId: groupData.productId,
-                groupPrice: groupData.groupPrice,
-                minMembers: groupData.minMembers,
-                endTime: groupData.endTime,
+            body: new URLSearchParams({
+                activityId: groupData.productId,
                 leaderId: currentUser.id
             })
         })
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error('服务器返回错误: ' + text + ' (状态码: ' + response.status + ')');
+                });
+            }
+            return response.text();
+        })
         .then(result => {
             console.log('发起拼团:', result);
             alert('拼团发起成功！');
@@ -413,7 +417,7 @@
         })
         .catch(error => {
             console.error('发起拼团失败:', error);
-            alert('拼团发起失败！');
+            alert('拼团发起失败！错误信息: ' + error.message);
         });
     });
 
